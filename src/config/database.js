@@ -1,17 +1,29 @@
 const mysql = require('mysql2/promise');
 require('dotenv').config();
 
-// Create connection pool
-const pool = mysql.createPool({
-  host: process.env.DB_HOST || 'localhost',
-  user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASSWORD || '',
-  database: process.env.DB_NAME || 'countries_db',
-  port: process.env.DB_PORT || 3306,
+// Railway provides MYSQLHOST, MYSQLUSER, etc.
+// Local development uses DB_HOST, DB_USER, etc.
+// This configuration supports both
+const dbConfig = {
+  host: process.env.MYSQLHOST || process.env.DB_HOST || 'localhost',
+  user: process.env.MYSQLUSER || process.env.DB_USER || 'root',
+  password: process.env.MYSQLPASSWORD || process.env.DB_PASSWORD || '',
+  database: process.env.MYSQLDATABASE || process.env.DB_NAME || 'countries_db',
+  port: parseInt(process.env.MYSQLPORT || process.env.DB_PORT || '3306'),
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0
-});
+};
+
+// Log configuration for debugging (without password)
+console.log('📊 Database Configuration:');
+console.log(`   Host: ${dbConfig.host}`);
+console.log(`   User: ${dbConfig.user}`);
+console.log(`   Database: ${dbConfig.database}`);
+console.log(`   Port: ${dbConfig.port}`);
+
+// Create connection pool
+const pool = mysql.createPool(dbConfig);
 
 // Initialize database schema
 async function initializeDatabase() {
@@ -70,6 +82,14 @@ async function testConnection() {
     return true;
   } catch (error) {
     console.error('❌ Database connection failed:', error.message);
+    console.error('   Error Code:', error.code);
+    console.error('   Error Number:', error.errno);
+    console.error('   SQL State:', error.sqlState);
+    console.error('\n🔍 Troubleshooting:');
+    console.error('   1. Ensure MySQL database is running');
+    console.error('   2. Check environment variables are set correctly');
+    console.error('   3. Verify database credentials');
+    console.error('   4. Check network connectivity to database host\n');
     return false;
   }
 }

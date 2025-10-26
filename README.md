@@ -389,11 +389,13 @@ The API returns consistent JSON error responses:
 ## 🚢 Deployment
 
 ### Supported Platforms
-- Railway
+- Railway ⭐ **Recommended** - [See RAILWAY_SETUP.md for detailed guide](./RAILWAY_SETUP.md)
 - Heroku
 - AWS (EC2, Elastic Beanstalk, Lambda)
 - DigitalOcean
 - Any platform supporting Node.js and MySQL
+
+> **📘 Quick Start:** For Railway deployment, see [RAILWAY_SETUP.md](./RAILWAY_SETUP.md) for a complete step-by-step guide with troubleshooting.
 
 ### Deployment Steps (Railway Example)
 
@@ -436,7 +438,13 @@ railway domain
 
 ### Environment Variables for Deployment
 
-Ensure these are set in your deployment platform:
+**Railway (Automatic):**
+Railway automatically sets these when you add a MySQL database:
+- `MYSQLHOST`, `MYSQLUSER`, `MYSQLPASSWORD`, `MYSQLDATABASE`, `MYSQLPORT`
+- App automatically detects and uses Railway's variables ✅
+
+**Other Platforms (Manual):**
+Set these environment variables:
 - `PORT` - Server port (usually set automatically)
 - `NODE_ENV` - Set to `production`
 - `DB_HOST` - Database host
