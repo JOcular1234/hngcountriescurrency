@@ -1,0 +1,176 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║           COUNTRY CURRENCY & EXCHANGE API - SETUP INSTRUCTIONS                ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+📋 STEP 1: CREATE ENVIRONMENT FILE
+-----------------------------------
+1. Create a new file named ".env" in the root directory
+2. Copy the contents from ".env.example" 
+3. Update the database credentials:
+
+   PORT=3000
+   NODE_ENV=development
+   
+   DB_HOST=localhost
+   DB_USER=root
+   DB_PASSWORD=your_mysql_password_here
+   DB_NAME=countries_db
+   DB_PORT=3306
+
+
+📊 STEP 2: CREATE DATABASE
+-----------------------------------
+1. Open MySQL command line or MySQL Workbench
+2. Run this command:
+   
+   CREATE DATABASE countries_db;
+
+   (Tables will be created automatically when you start the server)
+
+
+🚀 STEP 3: START THE SERVER
+-----------------------------------
+Choose one option:
+
+Option A - Development Mode (with auto-reload):
+   npm run dev
+
+Option B - Production Mode:
+   npm start
+
+
+✅ STEP 4: VERIFY SERVER IS RUNNING
+-----------------------------------
+You should see this output:
+
+   ✅ Database connection established
+   ✅ Database schema initialized successfully
+   
+   🚀 Server is running on port 3000
+   📍 API URL: http://localhost:3000
+   📖 Documentation: http://localhost:3000/
+   
+   ✨ Ready to accept requests!
+
+
+📥 STEP 5: POPULATE DATABASE
+-----------------------------------
+Run this command in a new terminal:
+
+   curl -X POST http://localhost:3000/countries/refresh
+
+Or in PowerShell:
+
+   Invoke-WebRequest -Uri "http://localhost:3000/countries/refresh" -Method POST
+
+This will:
+- Fetch 250+ countries from REST Countries API
+- Get current exchange rates
+- Calculate estimated GDP for each country
+- Store everything in MySQL database
+- Generate a summary image
+
+⏱️ This takes 10-30 seconds.
+
+
+🧪 STEP 6: TEST THE API
+-----------------------------------
+
+Test 1 - Get all countries:
+   curl http://localhost:3000/countries
+
+Test 2 - Get African countries:
+   curl "http://localhost:3000/countries?region=Africa"
+
+Test 3 - Get countries sorted by GDP:
+   curl "http://localhost:3000/countries?sort=gdp_desc"
+
+Test 4 - Get a specific country:
+   curl http://localhost:3000/countries/Nigeria
+
+Test 5 - Get API status:
+   curl http://localhost:3000/status
+
+Test 6 - Download summary image:
+   curl http://localhost:3000/countries/image -o summary.png
+
+
+📚 DOCUMENTATION FILES
+-----------------------------------
+├── README.md          - Complete API documentation
+├── QUICKSTART.md      - Quick setup guide (5 minutes)
+├── API_TESTING.md     - Detailed testing guide with examples
+├── DEPLOYMENT.md      - Deploy to Railway, Heroku, AWS, etc.
+└── SETUP_INSTRUCTIONS.txt - This file
+
+
+🔧 TROUBLESHOOTING
+-----------------------------------
+
+Problem: "Database connection failed"
+Solution: 
+  - Verify MySQL is running
+  - Check credentials in .env file
+  - Ensure database "countries_db" exists
+
+Problem: "Port 3000 already in use"
+Solution:
+  - Change PORT in .env to 3001 or another number
+  - Or kill the process using port 3000
+
+Problem: "External API timeout"
+Solution:
+  - Check internet connection
+  - Wait a moment and try again
+
+Problem: "Module not found"
+Solution:
+  - Run: npm install
+
+
+🌐 API ENDPOINTS
+-----------------------------------
+POST   /countries/refresh        Fetch & cache country data
+GET    /countries                Get all countries
+GET    /countries?region=Africa  Filter by region
+GET    /countries?currency=NGN   Filter by currency
+GET    /countries?sort=gdp_desc  Sort results
+GET    /countries/:name          Get single country
+DELETE /countries/:name          Delete country
+GET    /status                   API statistics
+GET    /countries/image          Summary image
+
+
+🎯 NEXT STEPS
+-----------------------------------
+1. ✅ Set up environment file (.env)
+2. ✅ Create database
+3. ✅ Start server
+4. ✅ Run refresh endpoint
+5. ✅ Test API endpoints
+6. 📖 Read full documentation (README.md)
+7. 🚀 Deploy to production (DEPLOYMENT.md)
+
+
+💡 TIPS
+-----------------------------------
+- Use Postman for easier API testing
+- Enable development mode for auto-reload
+- Check server logs for detailed error info
+- Run refresh periodically to update data
+- Backup database before making changes
+
+
+🆘 NEED HELP?
+-----------------------------------
+- Full documentation: README.md
+- Testing guide: API_TESTING.md
+- Deployment guide: DEPLOYMENT.md
+- Quick start: QUICKSTART.md
+
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                           READY TO START! 🚀                                  ║
+║                                                                               ║
+║  Follow the steps above and your API will be running in 5 minutes!           ║
+╚══════════════════════════════════════════════════════════════════════════════╝
